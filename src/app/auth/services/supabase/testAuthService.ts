@@ -3,7 +3,7 @@ import { login, logout } from './authService';
 export const testLoginLogout = async () => {
   try {
     // Test login
-    const { user, session } = await login('gerald.villaran.dev@gmail.com', 'Slacker1987');
+    const { user, session } = await login('', '');
     console.log('Login successful:', { user, session });
 
     // Test logout
