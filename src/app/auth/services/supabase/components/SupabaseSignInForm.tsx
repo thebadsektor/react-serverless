@@ -49,7 +49,7 @@ function SupabaseSignInForm() {
 	const { isValid, dirtyFields, errors } = formState;
 
 	useEffect(() => {
-		setValue('email', 'admin@fusetheme.com', { shouldDirty: true, shouldValidate: true });
+		setValue('email', 'admin@admin.com', { shouldDirty: true, shouldValidate: true });
 		setValue('password', 'admin', { shouldDirty: true, shouldValidate: true });
 	}, [setValue]);
 

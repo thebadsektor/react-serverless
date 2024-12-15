@@ -17,6 +17,12 @@ import SupabaseSignInTab from './tabs/SupabaseSignInTab';
 
 const tabs = [
 	{
+		id: 'supabase',
+		title: 'Supabase',
+		logo: 'assets/images/logo/supabase.svg',
+		logoClass: 'h-40'
+	},
+	{
 		id: 'jwt',
 		title: 'JWT',
 		logo: 'assets/images/logo/jwt.svg',
@@ -32,12 +38,6 @@ const tabs = [
 		id: 'aws',
 		title: 'AWS',
 		logo: 'assets/images/logo/aws-amplify.svg',
-		logoClass: 'h-40'
-	},
-	{
-		id: 'supabase',
-		title: 'Supabase',
-		logo: 'assets/images/logo/supabase.svg',
 		logoClass: 'h-40'
 	}
 ];
@@ -107,10 +107,10 @@ function SignInPage() {
 						))}
 					</Tabs>
 
+					{selectedTabId === 'supabase' && <SupabaseSignInTab />}
 					{selectedTabId === 'jwt' && <JwtLoginTab />}
 					{selectedTabId === 'firebase' && <FirebaseSignInTab />}
 					{selectedTabId === 'aws' && <AwsSignInTab />}
-					{selectedTabId === 'supabase' && <SupabaseSignInTab />}
 				</CardContent>
 			</Paper>
 
