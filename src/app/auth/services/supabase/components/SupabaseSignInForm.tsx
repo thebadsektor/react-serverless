@@ -1,6 +1,6 @@
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useEffect, useContext } from 'react';
+import { useEffect } from 'react';
 import { z } from 'zod';
 import _ from '@lodash';
 import TextField from '@mui/material/TextField';
@@ -9,9 +9,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import { Link } from 'react-router-dom';
 import Button from '@mui/material/Button';
-import { supabase } from '../supabaseClient';
-import { useNavigate } from 'react-router-dom';
-import { AuthContext } from '../../../AuthenticationProvider';
+import useSupabaseAuth from '../useSupabaseAuth';
 
 /**
  * Form Validation Schema
@@ -21,8 +19,7 @@ const schema = z.object({
 	password: z
 		.string()
 		.min(4, 'Password is too short - must be at least 4 chars.')
-		.nonempty('Please enter your password.'),
-	remember: z.boolean().optional()
+		.nonempty('Please enter your password.')
 });
 
 type FormType = {
@@ -38,8 +35,8 @@ const defaultValues = {
 };
 
 function SupabaseSignInForm() {
-	const { setIsAuthenticated } = useContext(AuthContext);
-	const navigate = useNavigate();
+	const { signIn } = useSupabaseAuth();
+
 	const { control, formState, handleSubmit, setValue, setError } = useForm<FormType>({
 		mode: 'onChange',
 		defaultValues,
@@ -57,24 +54,12 @@ function SupabaseSignInForm() {
 		const { email, password } = formData;
 
 		try {
-			const { data, error } = await supabase.auth.signInWithPassword({
-				email,
-				password
-			});
-
-			if (error) {
-				setError('root', {
-					type: 'manual',
-					message: error.message
-				});
-			} else if (data.user) {
-				setIsAuthenticated(true);
-				navigate('/');
-			}
+			await signIn(email, password);
 		} catch (error) {
+			const errorMessage = error.message || 'Could not sign in';
 			setError('root', {
 				type: 'manual',
-				message: 'An error occurred during sign in'
+				message: errorMessage
 			});
 		}
 	}
@@ -149,10 +134,6 @@ function SupabaseSignInForm() {
 					Forgot password?
 				</Link>
 			</div>
-
-			{errors.root && (
-				<div className="mb-24 text-red-500">{errors.root.message}</div>
-			)}
 
 			<Button
 				variant="contained"

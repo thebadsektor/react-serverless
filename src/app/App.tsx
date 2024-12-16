@@ -13,7 +13,6 @@ import { useAppSelector } from 'app/store/hooks';
 import { useSelector } from 'react-redux';
 import withAppProviders from './withAppProviders';
 import AuthenticationProvider from './auth/AuthenticationProvider';
-import { testLoginLogout } from './auth/services/supabase/testAuthService'
 
 // import axios from 'axios';
 /**
@@ -40,9 +39,6 @@ const emotionCacheOptions = {
  * The main App component.
  */
 function App() {
-	useEffect(() => {
-		testLoginLogout().catch(console.error);
-	}, []);
 	/**
 	 * The language direction from the Redux store.
 	 */
